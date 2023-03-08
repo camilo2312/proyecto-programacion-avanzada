@@ -1,9 +1,9 @@
 package co.edu.uniquindio.unimarket.modelo.entidades;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serializable;
 
 @Entity
 @Getter
@@ -11,11 +11,13 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Direccion {
+public class Direccion implements Serializable {
     @Id
     @EqualsAndHashCode.Include
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int codigo;
+    @Column(nullable = false)
     private String descripcion;
+    @Column(nullable = false)
     private int codigoPostal;
 }

@@ -1,10 +1,10 @@
 package co.edu.uniquindio.unimarket.modelo.entidades;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -13,12 +13,15 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Promocion {
+public class Promocion implements Serializable {
     @Id
     @EqualsAndHashCode.Include
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int codigo;
+    @Column(nullable = false)
     private double porcentajeDescuento;
-    private Date fechaInicio;
-    private Date fechaFin;
+    @Column(nullable = false)
+    private LocalDate fechaInicio;
+    @Column( nullable = false)
+    private LocalDate fechaFin;
 }
