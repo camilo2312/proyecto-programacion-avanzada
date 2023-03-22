@@ -24,4 +24,8 @@ public class Comentario implements Serializable {
     private LocalDate fechaCreacion;
     @Column(length = 20)
     private String estado;
+    @ManyToOne
+    private Usuario usuario;
+    @ManyToOne
+    private Producto producto;
 }

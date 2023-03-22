@@ -20,4 +20,8 @@ public class DetalleCompra implements Serializable {
     private int unidades;
     @Column(nullable = false)
     private double precioProducto;
+    @ManyToOne
+    private Compra compra;
+    @ManyToOne
+    private Producto producto;
 }

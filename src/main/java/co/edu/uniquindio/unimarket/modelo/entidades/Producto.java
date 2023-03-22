@@ -6,6 +6,7 @@ import lombok.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,4 +32,13 @@ public class Producto implements Serializable {
     private LocalDate fechaPublicacion;
     @Column(length = 20)
     private String estado;
+    @OneToMany(mappedBy = "producto")
+    private List<Comentario> comentarios;
+    @ManyToOne
+    private Usuario vendedor;
+    @ManyToOne
+    private Promocion promocion;
+    @OneToMany(mappedBy = "producto")
+    private List<DetalleCompra> detallesCompra;
+
 }
