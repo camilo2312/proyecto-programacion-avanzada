@@ -22,9 +22,12 @@ public class Direccion implements Serializable {
     @Column(nullable = false)
     private int codigoPostal;
     @ManyToOne
+    @ToString.Exclude
     private Usuario usuario;
     @ManyToOne
+    @ToString.Exclude
     private Moderador moderador;
     @OneToMany(mappedBy = "direccion")
+    @ToString.Exclude
     private List<Compra> compras;
 }

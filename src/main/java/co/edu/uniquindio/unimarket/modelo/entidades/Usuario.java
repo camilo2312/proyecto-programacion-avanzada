@@ -13,8 +13,8 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Usuario extends Persona implements Serializable {
+    @Column
     private int puntosAcumulados;
-
     @OneToMany(mappedBy = "usuario")
     private List<Direccion> direcciones;
     @OneToMany(mappedBy = "usuario")
@@ -23,6 +23,8 @@ public class Usuario extends Persona implements Serializable {
     private List<Producto> productos;
     @OneToMany(mappedBy = "usuario")
     private List<Compra> compras;
+    @ManyToMany(mappedBy = "lstUsuariosProductosFavoritos")
+    private List<Producto> lstProductosFavoritos;
 
 
 }

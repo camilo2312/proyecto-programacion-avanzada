@@ -21,7 +21,9 @@ public class DetalleCompra implements Serializable {
     @Column(nullable = false)
     private double precioProducto;
     @ManyToOne
+    @ToString.Exclude
     private Compra compra;
     @ManyToOne
+    @ToString.Exclude
     private Producto producto;
 }

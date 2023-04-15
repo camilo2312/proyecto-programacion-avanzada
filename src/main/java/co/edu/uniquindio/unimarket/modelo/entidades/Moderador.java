@@ -15,4 +15,6 @@ import java.util.List;
 public class Moderador extends Persona implements Serializable {
     @OneToMany(mappedBy = "moderador")
     private List<Direccion> direcciones;
+    @ManyToMany(mappedBy = "lstModeradores")
+    private List<Producto> lstProductos;
 }

@@ -24,11 +24,15 @@ public class Compra implements Serializable {
     @Column(nullable = false)
     private double precioTotal;
     @Column(length = 50)
-    private String medioPago;
+    @Enumerated(value = EnumType.STRING)
+    private MedioPago medioPago;
     @ManyToOne
+    @ToString.Exclude
     private Usuario usuario;
     @OneToMany(mappedBy = "compra")
+    @ToString.Exclude
     private List<DetalleCompra> detallesCompra;
     @ManyToOne
+    @ToString.Exclude
     private Direccion direccion;
 }

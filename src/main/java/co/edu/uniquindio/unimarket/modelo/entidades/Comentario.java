@@ -25,7 +25,9 @@ public class Comentario implements Serializable {
     @Column(length = 20)
     private String estado;
     @ManyToOne
+    @ToString.Exclude
     private Usuario usuario;
     @ManyToOne
+    @ToString.Exclude
     private Producto producto;
 }

@@ -20,9 +20,9 @@ public class Persona implements Serializable {
     private String nombreCompleto;
     @Column(length = 20)
     private String numeroTelefono;
-    @Column(length = 50, unique = true)
+    @Column(length = 100, unique = true)
     private String email;
-    @Column(nullable = false, unique = true)
+    @Column(length = 20, nullable = false, unique = true)
     private String nombreUsuario;
     @Column(length = 50, nullable = false, unique = true)
     private String contrasena;
