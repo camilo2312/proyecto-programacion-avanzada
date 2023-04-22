@@ -6,5 +6,5 @@ import co.edu.uniquindio.unimarket.dto.TokenDTO;
 public interface SesionServicio {
     TokenDTO login(SesionDTO session);
 
-    void logout();
+    void logout(int codigoUsuario);
 }

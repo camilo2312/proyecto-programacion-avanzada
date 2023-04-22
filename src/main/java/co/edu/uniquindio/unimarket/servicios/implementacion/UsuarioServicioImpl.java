@@ -7,6 +7,7 @@ import co.edu.uniquindio.unimarket.repositorios.UsuarioRepo;
 import co.edu.uniquindio.unimarket.servicios.interfaces.UsuarioServicio;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UsuarioServicioImpl implements UsuarioServicio {
     private final UsuarioRepo usuarioRepo;
+    private final PasswordEncoder passwordEncoder;
     @Override
     public String registrarUsuario(UsuarioDTO usuarioDTO) throws Exception {
         Usuario usuarioBuscado = usuarioRepo.findByEmail(usuarioDTO.getEmail());
@@ -27,7 +29,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         nuevoUsuario.setCedula(usuarioDTO.getCedula());
         nuevoUsuario.setNombreCompleto(usuarioDTO.getNombreCompleto());
         nuevoUsuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
-        nuevoUsuario.setContrasena(usuarioDTO.getContrasena());
+        nuevoUsuario.setContrasena(passwordEncoder.encode(usuarioDTO.getContrasena()));
         nuevoUsuario.setEmail(usuarioDTO.getEmail());
         nuevoUsuario.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
 
@@ -47,10 +49,13 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         return usuarioRepo.save(usuario).getCedula();
     }
 
+
+
     @Override
     public UsuarioGetDTO obtenerUsuario(String cedula) throws Exception {
         return transformarUsuario(obtenerUsuarioBD(cedula));
     }
+
 
     private Usuario obtenerUsuarioBD(String cedula) throws Exception {
         Optional<Usuario> usuario = usuarioRepo.findById(cedula);
