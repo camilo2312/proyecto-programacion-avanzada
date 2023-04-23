@@ -1,5 +1,9 @@
 package co.edu.uniquindio.unimarket.servicios.interfaces;
 
+import co.edu.uniquindio.unimarket.dto.EmailDTO;
+import lombok.*;
+
+
 public interface EmailServicio {
-    String enviarMensaje(String asunto, String cuerpo, String para);
+    void enviarEmail(EmailDTO emailDTO) throws Exception;
 }
