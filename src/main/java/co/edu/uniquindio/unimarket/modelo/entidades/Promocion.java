@@ -20,6 +20,8 @@ public class Promocion implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int codigo;
     @Column(nullable = false)
+    private String nombrePromocion;
+    @Column(nullable = false)
     private double porcentajeDescuento;
     @Column(nullable = false)
     private LocalDate fechaInicio;

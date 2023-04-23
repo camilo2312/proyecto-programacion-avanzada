@@ -18,8 +18,8 @@ import java.time.LocalDate;
 public class ComentarioDTO {
     @Length(max = 300, message = "La descripción del comentario debe tener máximo de 300 caracteres")
     private String descripcion;
-    @NotNull
+    @NotNull(message = "En el comentario el código del producto no puede ser nulo")
     private int codigoProducto;
-    @NotNull
+    @NotNull(message = "La cédula del usuario no puede ser nula")
     private String cedulaUsuario;
 }

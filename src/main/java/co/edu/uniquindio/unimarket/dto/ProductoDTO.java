@@ -1,8 +1,7 @@
 package co.edu.uniquindio.unimarket.dto;
 
 import co.edu.uniquindio.unimarket.modelo.entidades.Categoria;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,14 +20,19 @@ public class ProductoDTO {
     private String nombre;
     @Length(max = 200, message = "La descripción debe contener máximo 200 caracteres")
     private String descripcion;
-    @NotNull
+    @NotNull(message = "El precio del producto no puede ser nulo")
+    @Positive(message = "El precio del producto debe ser mayor a 0")
     private double precio;
     @NotNull
+    @Min(value = 1,message = "La disponibilidad el producto debe ser mayor a 1")
     private int disponibilidad;
-    @NotNull
+    @NotNull(message = "La cédula del vendedor no puede ser nula")
+    @NotBlank
     private String vendedor;
     @NotNull
+    @Size(min = 1, message = "El producto debe contener por lo menos 1 imagen")
     private Map<String, String> imagenes;
     @NotNull
+    @Size(min = 1, message = "El producto debe estar asociado por lo menos a 1 categoria")
     private List<Categoria> categorias;
 }

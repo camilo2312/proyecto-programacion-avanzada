@@ -2,8 +2,11 @@ package co.edu.uniquindio.unimarket.servicios.implementacion;
 
 import co.edu.uniquindio.unimarket.dto.UsuarioDTO;
 import co.edu.uniquindio.unimarket.dto.UsuarioGetDTO;
+import co.edu.uniquindio.unimarket.modelo.entidades.Estado;
+import co.edu.uniquindio.unimarket.modelo.entidades.Producto;
 import co.edu.uniquindio.unimarket.modelo.entidades.Usuario;
 import co.edu.uniquindio.unimarket.repositorios.UsuarioRepo;
+import co.edu.uniquindio.unimarket.servicios.interfaces.ProductoServicio;
 import co.edu.uniquindio.unimarket.servicios.interfaces.UsuarioServicio;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UsuarioServicioImpl implements UsuarioServicio {
     private final UsuarioRepo usuarioRepo;
+    private final ProductoServicio productoServicio;
 
 
     @Override
@@ -32,6 +36,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
             nuevoUsuario.setContrasena(usuarioDTO.getContrasena());
             nuevoUsuario.setEmail(usuarioDTO.getEmail());
             nuevoUsuario.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
+            nuevoUsuario.setEstado(Estado.ACTIVO);
         }
 
         return usuarioRepo.save(nuevoUsuario).getCedula();
@@ -47,6 +52,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         usuario.setContrasena(usuarioDTO.getContrasena());
         usuario.setEmail(usuarioDTO.getEmail());
         usuario.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
+        usuario.setEstado(usuarioDTO.getEstado());
 
         return usuarioRepo.save(usuario).getCedula();
     }
@@ -71,6 +77,11 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         }
 
         return lstReturnUsuarios;
+    }
+
+    @Override
+    public boolean crearProductoFavoritoUsuario(Usuario usuario) throws Exception {
+        return usuarioRepo.save(usuario).getCedula().equals("");
     }
 
     // Método que permite obtener un usuario de la base de datos

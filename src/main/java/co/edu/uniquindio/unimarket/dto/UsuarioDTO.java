@@ -1,11 +1,14 @@
 package co.edu.uniquindio.unimarket.dto;
 
+import co.edu.uniquindio.unimarket.modelo.entidades.Estado;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Getter
@@ -29,4 +32,5 @@ public class UsuarioDTO {
     @NotBlank
     @Length(min = 8, max = 50, message = "La contraseña debe tener minimo 8 caracteres y maximo 50 caracteres")
     private String contrasena;
+    private Estado estado;
 }

@@ -2,6 +2,7 @@ package co.edu.uniquindio.unimarket.servicios.interfaces;
 
 import co.edu.uniquindio.unimarket.dto.ProductoDTO;
 import co.edu.uniquindio.unimarket.dto.ProductoGetDTO;
+import co.edu.uniquindio.unimarket.dto.PromocionGetDTO;
 import co.edu.uniquindio.unimarket.modelo.entidades.Categoria;
 import co.edu.uniquindio.unimarket.modelo.entidades.Estado;
 import co.edu.uniquindio.unimarket.modelo.entidades.Producto;
@@ -31,4 +32,5 @@ public interface ProductoServicio {
     List<ProductoGetDTO> listarProductoPrecios(double precioMin, double precioMax) throws Exception;
     // Método que permite obtener una lista de productos dado su nombre
     List<ProductoGetDTO> listarProductosPorNombre(String nombre);
+    List<ProductoGetDTO> transformarListaProductos(List<Producto> productos);
 }

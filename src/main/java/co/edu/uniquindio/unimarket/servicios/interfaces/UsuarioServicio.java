@@ -12,5 +12,6 @@ public interface UsuarioServicio {
     UsuarioGetDTO obtenerUsuario(String cedula) throws Exception;
     Usuario obtenerUsuarioBD(String cedula) throws Exception;
     List<UsuarioGetDTO> obtenerUsuarios() throws Exception;
+    boolean crearProductoFavoritoUsuario(Usuario usuario) throws Exception;
 
 }
