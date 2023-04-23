@@ -1,5 +1,6 @@
 package co.edu.uniquindio.unimarket.modelo.entidades;
 
+import co.edu.uniquindio.unimarket.modelo.entidades.Estado;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,8 @@ public class Persona implements Serializable {
     private String nombreUsuario;
     @Column(length = 50, nullable = false, unique = true)
     private String contrasena;
-    @Column(length = 20)
-    private String estado;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
 }
+

@@ -22,8 +22,6 @@ public class Comentario implements Serializable {
     private String descripcion;
     @Column(nullable = false)
     private LocalDate fechaCreacion;
-    @Column(length = 20)
-    private String estado;
     @ManyToOne
     @ToString.Exclude
     private Usuario usuario;

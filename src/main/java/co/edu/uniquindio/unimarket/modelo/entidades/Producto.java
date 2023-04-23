@@ -33,8 +33,10 @@ public class Producto implements Serializable {
     @Column(nullable = false)
     private LocalDate fechaPublicacion;
     @Column(length = 20)
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
     @ElementCollection
+    @Enumerated(EnumType.STRING)
     @ToString.Exclude
     private List<Categoria> lstCategorias;
     @ElementCollection

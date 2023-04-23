@@ -9,32 +9,36 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UsuarioServicioImpl implements UsuarioServicio {
     private final UsuarioRepo usuarioRepo;
+
+
     @Override
+    // Método que permite realizar el registro de un usuario
     public String registrarUsuario(UsuarioDTO usuarioDTO) throws Exception {
-        Usuario usuarioBuscado = usuarioRepo.findByEmail(usuarioDTO.getEmail());
+        Usuario usuarioBuscado = obtenerUsuarioBD(usuarioDTO.getCedula());
+        Usuario nuevoUsuario = new Usuario();
 
         if (usuarioBuscado != null) {
-            throw new Exception("El correo ingresado ya existe");
+            nuevoUsuario.setCedula(usuarioDTO.getCedula());
+            nuevoUsuario.setNombreCompleto(usuarioDTO.getNombreCompleto());
+            nuevoUsuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
+            nuevoUsuario.setContrasena(usuarioDTO.getContrasena());
+            nuevoUsuario.setEmail(usuarioDTO.getEmail());
+            nuevoUsuario.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
         }
-
-        Usuario nuevoUsuario = new Usuario();
-        nuevoUsuario.setCedula(usuarioDTO.getCedula());
-        nuevoUsuario.setNombreCompleto(usuarioDTO.getNombreCompleto());
-        nuevoUsuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
-        nuevoUsuario.setContrasena(usuarioDTO.getContrasena());
-        nuevoUsuario.setEmail(usuarioDTO.getEmail());
-        nuevoUsuario.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
 
         return usuarioRepo.save(nuevoUsuario).getCedula();
     }
 
     @Override
+    // Método que permite actualizar la información de un usuario
     public String actualizarUsuario(String cedula, UsuarioDTO usuarioDTO) throws Exception {
 
         Usuario usuario = obtenerUsuarioBD(cedula);
@@ -48,11 +52,29 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     }
 
     @Override
+    // Método que permite obtener un usuario mediante su cédula
     public UsuarioGetDTO obtenerUsuario(String cedula) throws Exception {
         return transformarUsuario(obtenerUsuarioBD(cedula));
     }
 
-    private Usuario obtenerUsuarioBD(String cedula) throws Exception {
+    @Override
+    // Método que permite obtener la lista de usuarios registrados
+    public List<UsuarioGetDTO> obtenerUsuarios() throws Exception {
+        List<Usuario> lstUsuarios = usuarioRepo.findAll();
+        List<UsuarioGetDTO> lstReturnUsuarios = new ArrayList<>();
+
+        if (lstUsuarios != null && lstUsuarios.size() > 0)
+        {
+            lstUsuarios.forEach(usuario -> {
+                lstReturnUsuarios.add(transformarUsuario(usuario));
+            });
+        }
+
+        return lstReturnUsuarios;
+    }
+
+    // Método que permite obtener un usuario de la base de datos
+    public Usuario obtenerUsuarioBD(String cedula) throws Exception {
         Optional<Usuario> usuario = usuarioRepo.findById(cedula);
 
         if (usuario.isEmpty()) {
@@ -61,6 +83,10 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 
         return usuario.get();
     }
+
+    /* Método que permite realizar la transformación de un usuario de tipo
+       Usuario a un usuario de tipo UsuarioGetDTO
+     */
     private UsuarioGetDTO transformarUsuario(Usuario usuario) {
         UsuarioGetDTO usuarioGetDTO = new UsuarioGetDTO(usuario.getCedula(), usuario.getNombreCompleto(), usuario.getEmail(), usuario.getNumeroTelefono(), usuario.getContrasena());
         return usuarioGetDTO;

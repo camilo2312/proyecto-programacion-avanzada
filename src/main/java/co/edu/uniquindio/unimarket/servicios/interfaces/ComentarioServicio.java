@@ -6,6 +6,6 @@ import co.edu.uniquindio.unimarket.dto.ComentarioGetDTO;
 import java.util.List;
 
 public interface ComentarioServicio {
-    ComentarioDTO crearComentario(ComentarioDTO comentarioDTO);
-    List<ComentarioGetDTO> listarComentarios(int codigoProducto);
+    int crearComentario(ComentarioDTO comentarioDTO) throws Exception;
+    List<ComentarioGetDTO> listarComentarios(int codigoProducto) throws Exception;
 }
