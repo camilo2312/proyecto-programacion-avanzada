@@ -4,7 +4,6 @@ import co.edu.uniquindio.unimarket.dto.CompraDTO;
 import co.edu.uniquindio.unimarket.dto.CompraGetDTO;
 import co.edu.uniquindio.unimarket.dto.DetalleCompraDTO;
 import co.edu.uniquindio.unimarket.modelo.entidades.Compra;
-import co.edu.uniquindio.unimarket.modelo.entidades.DetalleCompra;
 import co.edu.uniquindio.unimarket.modelo.entidades.EstadoCompra;
 import co.edu.uniquindio.unimarket.repositorios.CompraRepo;
 import co.edu.uniquindio.unimarket.servicios.interfaces.*;

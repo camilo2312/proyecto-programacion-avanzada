@@ -11,6 +11,7 @@ import co.edu.uniquindio.unimarket.servicios.interfaces.UsuarioServicio;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class ComentarioServicioImpl implements ComentarioServicio {
     public int crearComentario(ComentarioDTO comentarioDTO) throws Exception {
         Comentario nuevoComentario = new Comentario();
         nuevoComentario.setDescripcion(comentarioDTO.getDescripcion());
+        nuevoComentario.setFechaCreacion(LocalDate.now());
         nuevoComentario.setUsuario(usuarioServicio.obtenerUsuarioBD(comentarioDTO.getCedulaUsuario()));
         nuevoComentario.setProducto(productoServicio.obtenerProductoBD(comentarioDTO.getCodigoProducto()));
 

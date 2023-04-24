@@ -1,15 +1,14 @@
 package co.edu.uniquindio.unimarket.servicios.implementacion;
 
+import co.edu.uniquindio.unimarket.dto.ProductoGetDTO;
 import co.edu.uniquindio.unimarket.dto.UsuarioDTO;
 import co.edu.uniquindio.unimarket.dto.UsuarioGetDTO;
 import co.edu.uniquindio.unimarket.modelo.entidades.Estado;
-import co.edu.uniquindio.unimarket.modelo.entidades.Producto;
 import co.edu.uniquindio.unimarket.modelo.entidades.Usuario;
 import co.edu.uniquindio.unimarket.repositorios.UsuarioRepo;
 import co.edu.uniquindio.unimarket.servicios.interfaces.ProductoServicio;
 import co.edu.uniquindio.unimarket.servicios.interfaces.UsuarioServicio;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -99,7 +98,13 @@ public class UsuarioServicioImpl implements UsuarioServicio {
        Usuario a un usuario de tipo UsuarioGetDTO
      */
     private UsuarioGetDTO transformarUsuario(Usuario usuario) {
-        UsuarioGetDTO usuarioGetDTO = new UsuarioGetDTO(usuario.getCedula(), usuario.getNombreCompleto(), usuario.getEmail(), usuario.getNumeroTelefono(), usuario.getContrasena());
+        UsuarioGetDTO usuarioGetDTO = new UsuarioGetDTO(
+                usuario.getCedula(),
+                usuario.getNombreCompleto(),
+                usuario.getEmail(),
+                usuario.getNumeroTelefono(),
+                usuario.getContrasena(),
+                new ArrayList<ProductoGetDTO>());
         return usuarioGetDTO;
     }
 }
