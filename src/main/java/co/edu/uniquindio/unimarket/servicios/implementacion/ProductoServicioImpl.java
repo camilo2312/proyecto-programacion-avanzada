@@ -28,7 +28,7 @@ public class ProductoServicioImpl implements ProductoServicio {
         Producto nuevoProducto = new Producto();
         nuevoProducto.setNombre(productoDTO.getNombre());
         nuevoProducto.setDescripcion(productoDTO.getDescripcion());
-        nuevoProducto.setEstado(Estado.SIN_REVISAR);
+        nuevoProducto.setEstado(Estado.INACTIVO);
         nuevoProducto.setPrecio(productoDTO.getPrecio());
         nuevoProducto.setVendedor(usuarioServicio.obtenerUsuarioBD(productoDTO.getVendedor()));
         nuevoProducto.setLstImages(productoDTO.getImagenes());
@@ -171,6 +171,17 @@ public class ProductoServicioImpl implements ProductoServicio {
         }
 
         return lstRespuestaProducto;
+    }
+
+    @Override
+    // Método que permite transformar una lista de productos a una lista de productos get dto
+    public List<ProductoGetDTO> transformarListaProductos(List<Producto> productos) {
+        List<ProductoGetDTO> lstRespuestaProductos = new ArrayList<>();
+        productos.forEach(producto -> {
+            lstRespuestaProductos.add(transformarProducto(producto));
+        });
+
+        return lstRespuestaProductos;
     }
 
     // Método que permite saber si el producto existe en la base de datos, dado su código

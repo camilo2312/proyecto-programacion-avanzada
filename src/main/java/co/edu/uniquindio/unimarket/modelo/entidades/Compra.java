@@ -26,6 +26,9 @@ public class Compra implements Serializable {
     @Column(length = 50)
     @Enumerated(value = EnumType.STRING)
     private MedioPago medioPago;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private EstadoCompra estado;
     @ManyToOne
     @ToString.Exclude
     private Usuario usuario;
