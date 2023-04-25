@@ -1,3 +1,16 @@
+-- direccion (codigo, descripcion, codigopostal)
+
+insert into direccion values (1, "Calle 123, Bogota", 12345);
+
+insert into direccion values (2, "Avenida 44 N  n 33", 67890);
+
+insert into direccion values (3, "Calle 12 # 23", 54321);
+
+insert into direccion values (4, "Avenida del rio c # 12 Pereira", 98765);
+
+insert into direccion values (5, "Ruta 34, Sector 12",12345)
+
+
 --usuario (cedula, nombre_completo, telefono, email, nombreusuario, contraseña, estado, puntosacululados, direccion)
 
 insert into usuario values (1094923724, "Daniel Esteban Tusarma Guerrero", "3206768686", "dannynacio@gmail.com",
@@ -53,14 +66,69 @@ insert into producto values (4, "freidora de aire Oster 3L","Para cocinar tus al
 insert into producto values (5, "Computador portatil Hp 14 pulgadas intel core I5 8 GB RAM", "Multifuncional y potente para realizar tus trabajos del dia", 2200000.00, 8, '2023-10-31', '2023-04-23', 'ACTIVO', 4);
 
 
--- direccion (codigo, descripcion, codigopostal)
 
-insert into direccion values (1, "El caimo Armenia Quindio", 12345);
+-- comentario (codigo, descripcion, fechacreacion, idusuario, idproducto)
 
-insert into direccion values (2, "Circasia Quindio", 67890);
+insert into comentario values (1, "Producto de excelente calidad", '2023-04-23', 1, 1);
 
-insert into direccion values (3, "Ibague Tolima", 54321);
+insert into comentario values (2, "El mejor producto que exixte de todos", '2023-04-23', 2, 1);
 
-insert into direccion values (4, "La tebaida Quindio", 98765);
+insert into comentario values (3, "El producto se demoro mucho para llegar", '2023-04-23', 3, 2);
 
-insert into direccion values (5, "Barrio la grecia mz 3 casa # 7",12345)
+insert into comentario values (4, "La calidad excelente, recomendado", '2023-04-23', 4, 3);
+
+insert into comentario values (5, "Llega con las especificaciones mostradas y muy rapida la entrega", '2023-04-23', 5, 4);
+
+
+
+-- compra (codigo, fechacreacion, precioTotal, mediopago, estadocompra, codigoUsuario, direccion)
+
+insert into compra values (1, '2023-04-23', 50000.00, 'EFECTY', 'APROBADA', 1094923724, "Finca el cofre corregimiento el caimo");
+
+insert into compra values (2, '2023-04-23', 75000.00, 'EFECTIVO', 'RECHAZADA', 1094923724, "Finca el cofre corregimiento el caimo");
+
+insert into compra values (3, '2023-04-23', 100000.00, 'TRANSFERENCIA', 'APROBADA', 1099233413, "circasia quindio");
+
+insert into compra values (4, '2023-04-23', 25000.00, 'EFECTIVO', 'CANCELADA', 1098123651, "Barrio la pavona mz 11 c # 12");
+
+insert into compra values (5, '2023-04-23', 80000.00, 'EFECTIVO', 'APROBADA', 1099233413, "circasia quindio");
+
+
+
+-- detallecompra (codigo, unidades, precioProducto, codigoProducto, codigoCompra)
+insert into detallecompra values (1, 10, 50000.00, 1, 1);
+
+insert into detallecompra values (2, 5, 75000.00, 2, 2);
+
+insert into detallecompra values (3, 8, 60000.00, 3, 4);
+
+insert into detallecompra values (4, 15, 45000.00, 4, 3);
+
+insert into detallecompra values (5, 20, 80000.00, 5, 5);
+
+
+-- usuarioproducto (codigo, unidades, precioProducto, codigoProducto, codigoCompra)
+
+insert into usuarioproducto values (1, 2);
+
+insert into usuarioproducto values (2, 4);
+
+insert into usuarioproducto values (3, 5);
+
+insert into usuarioproducto values (1, 3);
+
+insert into usuarioproducto values (5, 1);
+
+
+
+-- productocategoria (codigo, unidades, precioProducto, codigoProducto, codigoCompra)
+
+insert into productocategoria values (3, 2);
+
+insert into productocategoria values (2, 1);
+
+insert into productocategoria values (4, 4);
+
+insert into productocategoria values (5, 3);
+
+insert into productocategoria values (1, 5);
