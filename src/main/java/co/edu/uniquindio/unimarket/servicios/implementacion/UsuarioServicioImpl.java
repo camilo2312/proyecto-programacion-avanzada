@@ -61,8 +61,6 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         return usuarioRepo.save(usuario).getCedula();
     }
 
-
-
     @Override
     // Método que permite obtener un usuario mediante su cédula
     public UsuarioGetDTO obtenerUsuario(String cedula) throws Exception {
@@ -87,8 +85,23 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     }
 
     @Override
+    // Método que permite actualizar la lista de favoritos del usuario
     public boolean crearProductoFavoritoUsuario(Usuario usuario) throws Exception {
         return usuarioRepo.save(usuario).getCedula().equals("");
+    }
+
+    @Override
+    // Método que permite cambiar la contraseña del usuario
+    public boolean cambiarContrasena(String identificacionUsuario, String nuevaContrasena) throws Exception {
+        Usuario usuario = usuarioRepo.obtenerUsuarioCorreoNombreUsuario(identificacionUsuario);
+
+        if (usuario != null) {
+            usuario.setContrasena(passwordEncoder.encode(nuevaContrasena));
+            usuarioRepo.save(usuario);
+            return true;
+        }
+
+        throw new Exception("El usuario identificado con " + identificacionUsuario + " no existe en la base de datos");
     }
 
     // Método que permite obtener un usuario de la base de datos
@@ -113,7 +126,9 @@ public class UsuarioServicioImpl implements UsuarioServicio {
                 usuario.getEmail(),
                 usuario.getNumeroTelefono(),
                 usuario.getContrasena(),
-                new ArrayList<ProductoGetDTO>());
+                usuario.getNombreUsuario(),
+                usuario.getEstado(),
+                new ArrayList<>());
         return usuarioGetDTO;
     }
 }

@@ -115,7 +115,7 @@ public class ProductoServicioImpl implements ProductoServicio {
         return lstRespuesta;
     }
     @Override
-    // Método que permite obtener una lista de categorias por vendedor
+    // Método que permite obtener una lista de productos por vendedor
     public List<ProductoGetDTO> listarProductoUsuario(String cedulaUsuario) throws Exception{
         List<ProductoGetDTO> lstRespuestaProductos = new ArrayList<>();
         List<Producto> lstProductos = productoRepo.getProductosPorUsuario(cedulaUsuario);

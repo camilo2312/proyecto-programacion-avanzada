@@ -3,8 +3,11 @@ package co.edu.uniquindio.unimarket.servicios.implementacion;
 import co.edu.uniquindio.unimarket.dto.CompraDTO;
 import co.edu.uniquindio.unimarket.dto.CompraGetDTO;
 import co.edu.uniquindio.unimarket.dto.DetalleCompraDTO;
+import co.edu.uniquindio.unimarket.dto.EmailDTO;
 import co.edu.uniquindio.unimarket.modelo.entidades.Compra;
 import co.edu.uniquindio.unimarket.modelo.entidades.EstadoCompra;
+import co.edu.uniquindio.unimarket.modelo.entidades.Producto;
+import co.edu.uniquindio.unimarket.modelo.entidades.Usuario;
 import co.edu.uniquindio.unimarket.repositorios.CompraRepo;
 import co.edu.uniquindio.unimarket.servicios.interfaces.*;
 import lombok.AllArgsConstructor;
@@ -21,32 +24,63 @@ public class CompraServicioImpl implements CompraServicio {
     private final CompraRepo compraRepo;
     private final UsuarioServicio usuarioServicio;
     private final DetalleCompraServicio detalleCompraServicio;
+    private final ProductoServicio productoServicio;
     private final DireccionServicio direccionServicio;
+    private final EmailServicio emailServicio;
 
     @Override
     // Método que permite crear una compra en la base de datos
     public int crearCompra(CompraDTO compraDTO) throws Exception {
         Compra nuevaCompra = new Compra();
+        Usuario usuarioCompra = new Usuario();
+        Usuario vendedor = new Usuario();
+        Producto producto = new Producto();
         int resultadosDetalles = 0;
+        String mensajeUsuario = "";
+        String mensajeProductos = "";
+        List<String> correosVendedores = new ArrayList<>();
 
+        usuarioCompra = usuarioServicio.obtenerUsuarioBD(compraDTO.getCodigoUsuario());
         nuevaCompra.setMedioPago(compraDTO.getMedioPago());
-        nuevaCompra.setUsuario(usuarioServicio.obtenerUsuarioBD(compraDTO.getCodigoUsuario()));
+        nuevaCompra.setUsuario(usuarioCompra);
         nuevaCompra.setFechaCreacion(LocalDate.now());
         nuevaCompra.setEstado(EstadoCompra.APROBADA);
         nuevaCompra.setPrecioTotal(compraDTO.getTotal());
 
-//        for(DetalleCompraDTO detalleCompraDTO : compraDTO.getDetalleComprasDTO()) {
-//            total += (detalleCompraDTO.getPrecioProducto() * detalleCompraDTO.getUnidades());
-//        }
-
         nuevaCompra = compraRepo.save(nuevaCompra);
 
+
         if (nuevaCompra != null) {
+            mensajeUsuario += "El usuario " + usuarioCompra.getNombreCompleto() + " realizó la compra de los siguientes productos: \n";
             for(DetalleCompraDTO detalleCompraDTO : compraDTO.getDetalleComprasDTO()) {
                 if (detalleCompraServicio.crearDetalleCompra(nuevaCompra.getCodigo(), detalleCompraDTO) > 0) {
                     resultadosDetalles += 1;
+
+                    producto = productoServicio.obtenerProductoBD(detalleCompraDTO.getCodigoProducto());
+                    vendedor = usuarioServicio.obtenerUsuarioBD(producto.getVendedor().getCedula());
+                    mensajeProductos += "- " + producto.getNombre() + " " + detalleCompraDTO.getPrecioProducto() + "\n";
+                    correosVendedores.add(vendedor.getEmail());
                 }
             }
+
+            mensajeProductos += "Total pagado: " + nuevaCompra.getPrecioTotal();
+            mensajeUsuario += mensajeProductos;
+
+            emailServicio.enviarEmail(new EmailDTO(
+                    "Compra de productos en tienda Unimarket",
+                    mensajeUsuario,
+                    String.join(",", correosVendedores)
+            ));
+
+            mensajeUsuario = "Señor(a) " + usuarioCompra.getNombreCompleto() + " usted realizó la compra de los siguientes productos: \n";
+            mensajeUsuario += mensajeProductos;
+
+            emailServicio.enviarEmail(new EmailDTO(
+                    "Compra de productos en tienda Unimarket",
+                    mensajeUsuario,
+                    usuarioCompra.getEmail()
+            ));
+
         }
 
         return resultadosDetalles > 0 ? nuevaCompra.getCodigo() : 0;

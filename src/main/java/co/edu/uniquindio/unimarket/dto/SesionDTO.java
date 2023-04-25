@@ -9,10 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class SesionDTO {
-    private String usuario;
-    private String contrasena;
     @NotNull
     @Email
     private String email;

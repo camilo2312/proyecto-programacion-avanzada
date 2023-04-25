@@ -13,6 +13,7 @@ import java.util.Map;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class ProductoDTO {
     @NotNull
     @NotBlank
