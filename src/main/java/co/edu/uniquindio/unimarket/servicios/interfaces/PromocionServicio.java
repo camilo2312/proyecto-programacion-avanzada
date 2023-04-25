@@ -7,7 +7,7 @@ public interface PromocionServicio {
     // Método que permite crear una promoción
     int crearPromocion(PromocionDTO promocionDTO) throws Exception;
     // Método que permite actualizar una promoción
-    int actualizarPromocion(PromocionDTO promocionDTO) throws Exception;
+    int actualizarPromocion(int codigo, PromocionDTO promocionDTO) throws Exception;
     // Método que permite eliminar una promoción
     boolean eliminarPromocion(int codigoPromocion) throws Exception;
     // Método que permite obtener una promoción

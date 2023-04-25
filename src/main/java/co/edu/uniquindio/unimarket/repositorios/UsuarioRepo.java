@@ -12,4 +12,6 @@ public interface UsuarioRepo extends JpaRepository<Usuario, String> {
     // @Query("SELECT u FROM Usuario u WHERE u.email = :email")
     // Usuario buscarUsuarioEmail(String email);
     Usuario findByEmail(String email);
+    @Query("SELECT u FROM Usuario u WHERE u.email = :identificacion OR u.nombreUsuario = :identificacion")
+    Usuario obtenerUsuarioCorreoNombreUsuario(String identificacion);
 }

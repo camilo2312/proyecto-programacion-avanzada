@@ -3,6 +3,7 @@ package co.edu.uniquindio.unimarket.servicios.implementacion;
 import co.edu.uniquindio.unimarket.dto.DireccionDTO;
 import co.edu.uniquindio.unimarket.dto.DireccionGetDTO;
 import co.edu.uniquindio.unimarket.modelo.entidades.Direccion;
+import co.edu.uniquindio.unimarket.modelo.entidades.Usuario;
 import co.edu.uniquindio.unimarket.repositorios.DireccionRepo;
 import co.edu.uniquindio.unimarket.servicios.interfaces.DireccionServicio;
 import co.edu.uniquindio.unimarket.servicios.interfaces.UsuarioServicio;
@@ -22,29 +23,43 @@ public class DireccionServicioImpl implements DireccionServicio {
     @Override
     public int crearDireccion(DireccionDTO direccionDTO) throws  Exception{
         Direccion nuevaDireccion = new Direccion();
-        nuevaDireccion.setDescripcion(direccionDTO.getDescripcion());
-        nuevaDireccion.setCodigoPostal(direccionDTO.getCodigoPostal());
-        nuevaDireccion.setUsuario(usuarioServicio.obtenerUsuarioBD(direccionDTO.getCedulaUsuario()));
+        Usuario usuario = usuarioServicio.obtenerUsuarioBD(direccionDTO.getCedulaUsuario());
+        if (usuario != null) {
+            nuevaDireccion.setDescripcion(direccionDTO.getDescripcion());
+            nuevaDireccion.setCodigoPostal(direccionDTO.getCodigoPostal());
+            nuevaDireccion.setUsuario(usuario);
 
-        return direccionRepo.save(nuevaDireccion).getCodigo();
+            return direccionRepo.save(nuevaDireccion).getCodigo();
+        }
+
+        throw new Exception("El usuario identificado con " + direccionDTO.getCedulaUsuario() + " no exist en la base de datos");
     }
 
     // Método que permite actualizar el registro de una dirección
     @Override
     public int actualizarDireccion(int codigoDireccion, DireccionDTO direccionDTO) throws Exception {
         Direccion direccion = obtenerDireccionBD(codigoDireccion);
-        direccion.setCodigo(codigoDireccion);
-        direccion.setDescripcion(direccionDTO.getDescripcion());
-        direccion.setCodigoPostal(direccionDTO.getCodigoPostal());
+        if (direccion != null) {
+            direccion.setCodigo(codigoDireccion);
+            direccion.setDescripcion(direccionDTO.getDescripcion());
+            direccion.setCodigoPostal(direccionDTO.getCodigoPostal());
 
-        return direccionRepo.save(direccion).getCodigo();
+            return direccionRepo.save(direccion).getCodigo();
+        }
+
+        return 0;
     }
 
     // Método que permite eliminar una dirección de la base de datos
     @Override
     public boolean eliminarDireccion(int codigoDireccion) throws Exception{
-        direccionRepo.deleteById(codigoDireccion);
-        return direccionRepo.count() > 0;
+        Direccion direccion = obtenerDireccionBD(codigoDireccion);
+        if (direccion != null) {
+            direccionRepo.delete(direccion);
+            return true;
+        }
+
+        return  false;
     }
 
     // Método que permite obtener las direcciones asociadas a un usuario

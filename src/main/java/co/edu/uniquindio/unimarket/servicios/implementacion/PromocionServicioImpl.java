@@ -24,7 +24,36 @@ public class PromocionServicioImpl implements PromocionServicio {
     // Método que permite crear una promoción
     public int crearPromocion(PromocionDTO promocionDTO) throws Exception {
         List<Producto> lstProductos = new ArrayList<>();
+        Producto producto = new Producto();
         Promocion promocion = new Promocion();
+        promocion.setNombrePromocion(promocionDTO.getNombrePromocion());
+        promocion.setPorcentajeDescuento(promocionDTO.getPorcentajeDescuento());
+        promocion.setFechaInicio(promocionDTO.getFechaInicio());
+        promocion.setFechaFin(promocionDTO.getFechaFin());
+
+        for (ProductoGetDTO productoGetDTO : promocionDTO.getLstProductos()) {
+            producto = productoServicio.obtenerProductoBD(productoGetDTO.getCodigo());
+            if (producto != null) {
+                if (!validarProductoPromocion(productoGetDTO.getCodigo())) {
+                    lstProductos.add(producto);
+                } else {
+                    throw new Exception("El producto con el código " + productoGetDTO.getCodigo() + " ya tiene una promoción asociada, por favor eliminelo de la lista");
+                }
+            } else {
+                throw new Exception("El producto identidicado con el código " + productoGetDTO.getCodigo() + " no existe en la base de datos," +
+                        "por favor cree el producto e intente nuevamente");
+            }
+        }
+
+        promocion.setProductos(lstProductos);
+        return promocionRepo.save(promocion).getCodigo();
+    }
+
+    @Override
+    // Método que permite actualizar una promoción
+    public int actualizarPromocion(int codigo, PromocionDTO promocionDTO) throws Exception {
+        List<Producto> lstProductos = new ArrayList<>();
+        Promocion promocion = obtenerPromocionBD(codigo);
         promocion.setNombrePromocion(promocionDTO.getNombrePromocion());
         promocion.setPorcentajeDescuento(promocionDTO.getPorcentajeDescuento());
         promocion.setFechaInicio(promocionDTO.getFechaInicio());
@@ -39,35 +68,17 @@ public class PromocionServicioImpl implements PromocionServicio {
     }
 
     @Override
-    // Método que permite actualizar una promoción
-    public int actualizarPromocion(PromocionDTO promocionDTO) throws Exception {
-        List<Producto> lstProductos = new ArrayList<>();
-        Promocion promocion = new Promocion();
-        promocion.setNombrePromocion(promocionDTO.getNombrePromocion());
-        promocion.setPorcentajeDescuento(promocionDTO.getPorcentajeDescuento());
-        promocion.setFechaInicio(promocionDTO.getFechaInicio());
-        promocion.setFechaFin(promocionDTO.getFechaFin());
-
-        for (ProductoGetDTO productoGetDTO : promocionDTO.getLstProductos()) {
-            if (!validarProductoPromocion(productoGetDTO.getCodigo())) {
-                lstProductos.add(productoServicio.obtenerProductoBD(productoGetDTO.getCodigo()));
-            } else {
-                throw new Exception("El producto con el código " + productoGetDTO.getCodigo() + " ya tiene una promoción asociada, por favor eliminelo de la lista");
-            }
-        }
-
-        promocion.setProductos(lstProductos);
-        return promocionRepo.save(promocion).getCodigo();
-    }
-
-    @Override
     // Método que permite eliminar una promoción
     public boolean eliminarPromocion(int codigoPromocion) throws Exception {
         Promocion promocion =  obtenerPromocionBD(codigoPromocion);
 
-        promocionRepo.delete(promocion);
+        if (promocion != null) {
+            promocionRepo.delete(promocion);
 
-        return promocionRepo.count() > 0;
+            return promocionRepo.count() > 0;
+        }
+
+        throw new Exception("La promoción ingresada con el código " +codigoPromocion + " no existe en la base de datos");
     }
 
     @Override
@@ -92,19 +103,20 @@ public class PromocionServicioImpl implements PromocionServicio {
 
     // Método que permite obtener una promoción directamente de la base de datos
     private Promocion obtenerPromocionBD(int codigoPromocion) throws Exception {
-        Optional<Promocion> promocion = promocionRepo.findById(codigoPromocion);
+        Promocion promocion = promocionRepo.obtenerPromocion(codigoPromocion);
 
-        if (promocion.isEmpty()) {
+        if (promocion != null) {
             throw new Exception("La promoción asociada al código " + codigoPromocion + " no existe");
         }
 
-        return promocion.get();
+        return promocion;
     }
 
     // Método que permite transformar una promoción en una promoción get DTO
     private PromocionGetDTO transformarPromocion(Promocion promocion) {
         PromocionGetDTO promocionGetDTO = new PromocionGetDTO(
                 promocion.getCodigo(),
+                promocion.getNombrePromocion(),
                 promocion.getPorcentajeDescuento(),
                 promocion.getFechaInicio(),
                 promocion.getFechaFin(),
