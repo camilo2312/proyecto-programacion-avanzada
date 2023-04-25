@@ -51,9 +51,9 @@ public class PromocionServicioImpl implements PromocionServicio {
 
     @Override
     // Método que permite actualizar una promoción
-    public int actualizarPromocion(PromocionDTO promocionDTO) throws Exception {
+    public int actualizarPromocion(int codigo, PromocionDTO promocionDTO) throws Exception {
         List<Producto> lstProductos = new ArrayList<>();
-        Promocion promocion = new Promocion();
+        Promocion promocion = obtenerPromocionBD(codigo);
         promocion.setNombrePromocion(promocionDTO.getNombrePromocion());
         promocion.setPorcentajeDescuento(promocionDTO.getPorcentajeDescuento());
         promocion.setFechaInicio(promocionDTO.getFechaInicio());

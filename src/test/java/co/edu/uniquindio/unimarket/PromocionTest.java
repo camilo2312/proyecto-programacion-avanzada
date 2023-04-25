@@ -63,7 +63,7 @@ public class PromocionTest {
                     promocion.getLstProductos()
             );
 
-            int codigo = promocionServicio.actualizarPromocion(promocionDTO);
+            int codigo = promocionServicio.actualizarPromocion(1, promocionDTO);
 
             Assertions.assertNotEquals(2, codigo);
         } catch(Exception ex) {
