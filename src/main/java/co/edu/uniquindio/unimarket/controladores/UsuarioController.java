@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 @RestController
-@RequestMapping("api/clientes")
+@RequestMapping("api/usuario")
 @AllArgsConstructor
 public class UsuarioController {
     @Autowired
