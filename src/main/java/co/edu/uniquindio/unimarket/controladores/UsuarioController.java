@@ -1,5 +1,7 @@
 package co.edu.uniquindio.unimarket.controladores;
 
+import co.edu.uniquindio.unimarket.dto.UsuarioGetDTO;
+import co.edu.uniquindio.unimarket.modelo.entidades.Usuario;
 import co.edu.uniquindio.unimarket.servicios.interfaces.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,4 +14,6 @@ import lombok.AllArgsConstructor;
 public class UsuarioController {
     @Autowired
     private final UsuarioServicio usuarioServicio;
+
+
 }

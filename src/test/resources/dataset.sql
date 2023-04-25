@@ -132,3 +132,31 @@ insert into productocategoria values (4, 4);
 insert into productocategoria values (5, 3);
 
 insert into productocategoria values (1, 5);
+
+
+
+-- moderadorproducto (moderadorCodigo, productoCodigo, estado)
+
+insert into moderadorproducto values (1, 2, "ACTIVO");
+
+insert into moderadorproducto values (3, 2, "ACTIVO");
+
+insert into moderadorproducto values (2, 5, "INACTIVO");
+
+insert into moderadorproducto values (5, 1, "ACTIVO");
+
+insert into moderadorproducto values (4, 4, "ACTIVO");
+
+
+
+-- moderadorproducto (codigoImagenURL, productoCodigo, comentarioCodigo)
+
+insert into imagen values (1, 2, 1);
+
+insert into imagen values (2, 2, 4);
+
+insert into imagen values (3, 4, 2);
+
+insert into imagen values (4, 1, 5);
+
+insert into imagen values (5, 5, 3);
