@@ -14,4 +14,7 @@ public interface CompraRepo extends JpaRepository<Compra, Integer> {
     List<Compra> obtenerListaComprasPorUsuario(String cedulaUsuario);
     @Query("SELECT c FROM Compra c WHERE c.estado = :estadoCompra")
     List<Compra> obtenerListaComprasPorEstado(EstadoCompra estadoCompra);
+
+    @Query("SELECT SUM(c.precioTotal) FROM Compra c WHERE YEAR(c.fechaCreacion) = :anio AND MONTH(c.fechaCreacion) = :mes")
+    double obtenerTotalVentasDadoMesAnio(int anio, int mes);
 }

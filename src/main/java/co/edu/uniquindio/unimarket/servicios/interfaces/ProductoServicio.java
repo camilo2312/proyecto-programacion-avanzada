@@ -33,4 +33,5 @@ public interface ProductoServicio {
     // Método que permite obtener una lista de productos dado su nombre
     List<ProductoGetDTO> listarProductosPorNombre(String nombre);
     List<ProductoGetDTO> transformarListaProductos(List<Producto> productos);
+    int obtenerDisponibilidadProducto(int codigo);
 }

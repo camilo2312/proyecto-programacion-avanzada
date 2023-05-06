@@ -21,27 +21,20 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UsuarioServicioImpl implements UsuarioServicio {
     private final UsuarioRepo usuarioRepo;
-    private final ProductoServicio productoServicio;
-
     private final PasswordEncoder passwordEncoder;
 
 
     @Override
     // Método que permite realizar el registro de un usuario
     public String registrarUsuario(UsuarioDTO usuarioDTO) throws Exception {
-        Usuario usuarioBuscado = obtenerUsuarioBD(usuarioDTO.getCedula());
         Usuario nuevoUsuario = new Usuario();
-
-        if (usuarioBuscado != null) {
-            nuevoUsuario.setCedula(usuarioDTO.getCedula());
-            nuevoUsuario.setNombreCompleto(usuarioDTO.getNombreCompleto());
-            nuevoUsuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
-            nuevoUsuario.setContrasena(passwordEncoder.encode(usuarioDTO.getContrasena()));
-            nuevoUsuario.setEmail(usuarioDTO.getEmail());
-            nuevoUsuario.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
-            nuevoUsuario.setEstado(Estado.ACTIVO);
-        }
-
+        nuevoUsuario.setCedula(usuarioDTO.getCedula());
+        nuevoUsuario.setNombreCompleto(usuarioDTO.getNombreCompleto());
+        nuevoUsuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
+        nuevoUsuario.setContrasena(passwordEncoder.encode(usuarioDTO.getContrasena()));
+        nuevoUsuario.setEmail(usuarioDTO.getEmail());
+        nuevoUsuario.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
+        nuevoUsuario.setEstado(Estado.ACTIVO);
 
         return usuarioRepo.save(nuevoUsuario).getCedula();
     }

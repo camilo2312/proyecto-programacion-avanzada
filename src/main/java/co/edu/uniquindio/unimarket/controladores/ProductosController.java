@@ -72,7 +72,7 @@ public class ProductosController {
                 productoServicio.listarProductoUsuario(cedula)
         ));
     }
-    @GetMapping("/{cedula}")
+    @GetMapping("/favoritos/{cedula}")
     public ResponseEntity<MensajeDTO> listarProductoFavUsuario(@PathVariable String cedula) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
                 HttpStatus.OK,

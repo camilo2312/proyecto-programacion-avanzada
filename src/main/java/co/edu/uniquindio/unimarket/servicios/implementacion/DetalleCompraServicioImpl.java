@@ -2,6 +2,7 @@ package co.edu.uniquindio.unimarket.servicios.implementacion;
 
 import co.edu.uniquindio.unimarket.dto.DetalleCompraDTO;
 import co.edu.uniquindio.unimarket.dto.DetalleCompraGetDTO;
+import co.edu.uniquindio.unimarket.modelo.entidades.Compra;
 import co.edu.uniquindio.unimarket.modelo.entidades.DetalleCompra;
 import co.edu.uniquindio.unimarket.repositorios.DetalleCompraRepo;
 import co.edu.uniquindio.unimarket.servicios.interfaces.CompraServicio;
@@ -17,14 +18,13 @@ import java.util.List;
 @AllArgsConstructor
 public class DetalleCompraServicioImpl implements DetalleCompraServicio {
     private final DetalleCompraRepo detalleCompraRepo;
-    private final CompraServicio compraServicio;
     private final ProductoServicio productoServicio;
 
     @Override
     // Método que permite crear un detalle de compra en la base de datos
-    public int crearDetalleCompra(int codigoCompra, DetalleCompraDTO detalleCompraDTO) throws Exception {
+    public int crearDetalleCompra(Compra compra, DetalleCompraDTO detalleCompraDTO) throws Exception {
         DetalleCompra detalleCompra = new DetalleCompra();
-        detalleCompra.setCompra(compraServicio.obtenerCompraBD(codigoCompra));
+        detalleCompra.setCompra(compra);
         detalleCompra.setUnidades(detalleCompraDTO.getUnidades());
         detalleCompra.setPrecioProducto(detalleCompraDTO.getPrecioProducto());
         detalleCompra.setProducto(productoServicio.obtenerProductoBD(detalleCompraDTO.getCodigoProducto()));

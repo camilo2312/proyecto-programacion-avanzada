@@ -184,6 +184,11 @@ public class ProductoServicioImpl implements ProductoServicio {
         return lstRespuestaProductos;
     }
 
+    @Override
+    public int obtenerDisponibilidadProducto(int codigo) {
+        return 0;
+    }
+
     // Método que permite saber si el producto existe en la base de datos, dado su código
     private boolean confirmarExistenciaProducto(int codigoProducto) throws Exception {
         boolean existe = productoRepo.existsById(codigoProducto);

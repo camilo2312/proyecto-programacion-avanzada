@@ -26,7 +26,7 @@ public class ProductoFavoritoUsuarioController {
     }
 
     @DeleteMapping("/{codigo}")
-    public ResponseEntity<MensajeDTO> crearFavoritosUsuario(@PathVariable int codigo, @Valid @RequestBody FavoritoDTO favoritoDTO) throws Exception{
+    public ResponseEntity<MensajeDTO> eliminarFavoritosUsuario(@PathVariable int codigo, @Valid @RequestBody FavoritoDTO favoritoDTO) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
                 HttpStatus.OK,
                 false,

@@ -34,11 +34,6 @@ public class GlobalExceptions {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new
                 MensajeDTO(HttpStatus.FORBIDDEN, true, "No se puede acceder a este recurso"));
     }
-//    @ExceptionHandler(AttributeException.class)
-//    public ResponseEntity<MensajeDTO> throwAttributeException(AttributeException e) {
-//        return ResponseEntity.badRequest().body(new MensajeDTO(HttpStatus.BAD_REQUEST, true,
-//                e.getMessage()));
-//    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<MensajeDTO> validationException(MethodArgumentNotValidException ex){
         List<String> messages = new ArrayList<>();

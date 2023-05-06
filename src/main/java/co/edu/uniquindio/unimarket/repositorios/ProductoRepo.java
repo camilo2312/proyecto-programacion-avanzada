@@ -26,4 +26,6 @@ public interface ProductoRepo extends JpaRepository<Producto, Integer> {
     List<Producto> getProductosPorRangoPrecio(double precioMinimo, double precioMaximo);
     @Query("SELECT p FROM Producto p WHERE p.nombre like concat('%', :nombre, '%') AND p.estado = 'ACEPTADO' ")
     List<Producto> getProductosPorNombre(String nombre);
+    @Query("SELECT p.disponibilidad FROM Producto p WHERE p.codigo = :codigo")
+    int obtenerDisponibilidadProducto(int codigo);
 }

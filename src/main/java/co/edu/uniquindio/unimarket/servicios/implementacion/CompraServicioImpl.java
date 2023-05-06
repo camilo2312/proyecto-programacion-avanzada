@@ -11,6 +11,7 @@ import co.edu.uniquindio.unimarket.modelo.entidades.Usuario;
 import co.edu.uniquindio.unimarket.repositorios.CompraRepo;
 import co.edu.uniquindio.unimarket.servicios.interfaces.*;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -53,7 +54,7 @@ public class CompraServicioImpl implements CompraServicio {
         if (nuevaCompra != null) {
             mensajeUsuario += "El usuario " + usuarioCompra.getNombreCompleto() + " realizó la compra de los siguientes productos: \n";
             for(DetalleCompraDTO detalleCompraDTO : compraDTO.getDetalleComprasDTO()) {
-                if (detalleCompraServicio.crearDetalleCompra(nuevaCompra.getCodigo(), detalleCompraDTO) > 0) {
+                if (detalleCompraServicio.crearDetalleCompra(nuevaCompra, detalleCompraDTO) > 0) {
                     resultadosDetalles += 1;
 
                     producto = productoServicio.obtenerProductoBD(detalleCompraDTO.getCodigoProducto());

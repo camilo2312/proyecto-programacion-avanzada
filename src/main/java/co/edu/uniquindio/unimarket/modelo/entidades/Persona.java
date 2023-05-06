@@ -25,7 +25,7 @@ public class Persona implements Serializable {
     private String email;
     @Column(length = 20, nullable = false, unique = true)
     private String nombreUsuario;
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(length = 200, nullable = false, unique = true)
     private String contrasena;
     @Column
     @Enumerated(EnumType.STRING)

@@ -19,7 +19,7 @@ public class ComentarioTest {
     @Autowired
     private ComentarioServicio comentarioServicio;
     @Test
-    @Sql("classpath:dataset.sql")
+
     public void crearComentario() {
         try {
             int codigo = comentarioServicio.crearComentario(new ComentarioDTO(
