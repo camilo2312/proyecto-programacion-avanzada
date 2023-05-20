@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProductoFavoritoUsuarioController {
     private final ProductoFavoritoServicio productoFavoritoServicio;
 
-    @PostMapping
+    @PostMapping("/crearFavorito")
     public ResponseEntity<MensajeDTO> crearFavoritosUsuario(@Valid @RequestBody FavoritoDTO favoritoDTO) throws Exception{
         return ResponseEntity.status(HttpStatus.CREATED).body(new MensajeDTO(
                 HttpStatus.CREATED,
@@ -25,8 +25,8 @@ public class ProductoFavoritoUsuarioController {
         ));
     }
 
-    @DeleteMapping("/{codigo}")
-    public ResponseEntity<MensajeDTO> eliminarFavoritosUsuario(@PathVariable int codigo, @Valid @RequestBody FavoritoDTO favoritoDTO) throws Exception{
+    @PostMapping("/eliminarFavorito")
+    public ResponseEntity<MensajeDTO> eliminarFavoritosUsuario(@Valid @RequestBody FavoritoDTO favoritoDTO) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
                 HttpStatus.OK,
                 false,

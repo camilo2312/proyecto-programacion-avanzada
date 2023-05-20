@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -17,10 +19,13 @@ import java.util.Map;
 public class ImagenesController {
     private final CloudinaryServicio cloudinaryServicio;
     @PostMapping("/upload")
-    public ResponseEntity<MensajeDTO> subirImagen(@RequestParam("file") MultipartFile file)
+    public ResponseEntity<MensajeDTO> subirImagen(@RequestParam("file") List<MultipartFile> files)
             throws Exception{
-        File imagen = cloudinaryServicio.convertir(file);
-        Map respuesta = cloudinaryServicio.subirImagen(imagen, "proyecto");
+        List<Map> respuesta = new ArrayList<>();
+        for (MultipartFile file : files) {
+            File image = cloudinaryServicio.convertir(file);
+            respuesta.add(cloudinaryServicio.subirImagen(image, "proyecto"));
+        }
         return ResponseEntity.status(HttpStatus.OK).body( new MensajeDTO(HttpStatus.OK, false,
                 respuesta ) );
     }

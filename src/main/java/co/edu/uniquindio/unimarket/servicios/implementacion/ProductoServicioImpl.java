@@ -1,5 +1,6 @@
 package co.edu.uniquindio.unimarket.servicios.implementacion;
 
+import co.edu.uniquindio.unimarket.dto.ImagenDTO;
 import co.edu.uniquindio.unimarket.dto.ProductoDTO;
 import co.edu.uniquindio.unimarket.dto.ProductoGetDTO;
 import co.edu.uniquindio.unimarket.modelo.entidades.Categoria;
@@ -13,9 +14,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -25,13 +25,17 @@ public class ProductoServicioImpl implements ProductoServicio {
     @Override
     // Método que permite crear un producto
     public int crearProducto(ProductoDTO productoDTO) throws Exception {
+        Map<String, String> imagenes = productoDTO.getImagenes().stream().collect(
+                Collectors.toMap(x -> x.getId(), x -> x.getUrl()));
+
         Producto nuevoProducto = new Producto();
         nuevoProducto.setNombre(productoDTO.getNombre());
         nuevoProducto.setDescripcion(productoDTO.getDescripcion());
         nuevoProducto.setEstado(Estado.INACTIVO);
         nuevoProducto.setPrecio(productoDTO.getPrecio());
-        nuevoProducto.setVendedor(usuarioServicio.obtenerUsuarioBD(productoDTO.getVendedor()));
-        nuevoProducto.setLstImages(productoDTO.getImagenes());
+        nuevoProducto.setDisponibilidad(productoDTO.getDisponibilidad());
+        nuevoProducto.setVendedor(usuarioServicio.obtenerUsuarioBDCorreo(productoDTO.getVendedor()));
+        nuevoProducto.setLstImages(imagenes);
         nuevoProducto.setLstCategorias(productoDTO.getCategorias());
         nuevoProducto.setFechaPublicacion(LocalDate.now());
         nuevoProducto.setFechaLimite(LocalDate.now().plusDays(30));
@@ -55,6 +59,8 @@ public class ProductoServicioImpl implements ProductoServicio {
     // Método que permite actualizar un registro de un producto de la base de datos
     public int actualizarProducto(int codigoProducto, ProductoDTO productoDTO) throws Exception {
         Producto producto = null;
+        Map<String, String> imagenes = productoDTO.getImagenes().stream().collect(
+                Collectors.toMap(x -> x.getId(), x -> x.getUrl()));
 
         if (confirmarExistenciaProducto(codigoProducto)) {
             producto = obtenerProductoBD(codigoProducto);
@@ -62,8 +68,9 @@ public class ProductoServicioImpl implements ProductoServicio {
             producto.setNombre(productoDTO.getNombre());
             producto.setDescripcion(productoDTO.getDescripcion());
             producto.setPrecio(productoDTO.getPrecio());
-            producto.setLstImages(productoDTO.getImagenes());
+            producto.setLstImages(imagenes);
             producto.setLstCategorias(productoDTO.getCategorias());
+            producto.setDisponibilidad(productoDTO.getDisponibilidad());
             return productoRepo.save(producto).getCodigo();
         }
 
@@ -189,6 +196,29 @@ public class ProductoServicioImpl implements ProductoServicio {
         return 0;
     }
 
+    @Override
+    public List<ProductoGetDTO> listarTodosLosProductos() {
+        List<Producto> lstProductos = productoRepo.obtenerTodosLosProductos();
+        List<ProductoGetDTO> lstRespuesta = new ArrayList<>();
+
+        lstRespuesta = transformarListaProductos(lstProductos);
+
+        return  lstRespuesta;
+    }
+
+    @Override
+    public List<Categoria> obtenerListaCategorias() {
+        List<Categoria> lstCategorias = new ArrayList<>();
+        lstCategorias.add(Categoria.Juegos);
+        lstCategorias.add(Categoria.Belleza);
+        lstCategorias.add(Categoria.Moda);
+        lstCategorias.add(Categoria.Vehiculos);
+        lstCategorias.add(Categoria.Tecnologia);
+        lstCategorias.add(Categoria.Electrodomesticos);
+
+        return lstCategorias;
+    }
+
     // Método que permite saber si el producto existe en la base de datos, dado su código
     private boolean confirmarExistenciaProducto(int codigoProducto) throws Exception {
         boolean existe = productoRepo.existsById(codigoProducto);
@@ -202,6 +232,10 @@ public class ProductoServicioImpl implements ProductoServicio {
 
     // Método que permite transformar un producto en un producto get dto
     private ProductoGetDTO transformarProducto(Producto producto) {
+        List<ImagenDTO> lstImagenes = producto.getLstImages().entrySet().stream().map(x -> {
+            return new ImagenDTO(x.getKey(), x.getValue());
+        }).collect(Collectors.toList());
+
         ProductoGetDTO productoGetDTO = new ProductoGetDTO(
                 producto.getCodigo(),
                 producto.getNombre(),
@@ -211,7 +245,7 @@ public class ProductoServicioImpl implements ProductoServicio {
                 producto.getFechaLimite(),
                 producto.getFechaPublicacion(),
                 producto.getVendedor().getCedula(),
-                producto.getLstImages(),
+                lstImagenes,
                 producto.getLstCategorias()
         );
 

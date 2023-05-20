@@ -34,4 +34,6 @@ public interface ProductoServicio {
     List<ProductoGetDTO> listarProductosPorNombre(String nombre);
     List<ProductoGetDTO> transformarListaProductos(List<Producto> productos);
     int obtenerDisponibilidadProducto(int codigo);
+    List<ProductoGetDTO> listarTodosLosProductos();
+    List<Categoria> obtenerListaCategorias();
 }

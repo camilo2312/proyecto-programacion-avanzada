@@ -17,6 +17,8 @@ public interface UsuarioServicio {
     UsuarioGetDTO obtenerUsuario(String cedula) throws Exception;
     // Método que permite obtener un usuario directamente de la base de datos por medio de su cédula
     Usuario obtenerUsuarioBD(String cedula) throws Exception;
+    // Método que permite obtener un usuario directamente de la base de datos por medio de su correo
+    Usuario obtenerUsuarioBDCorreo(String correo) throws Exception;
     // Método que permite obtener la lista de usuarios
     List<UsuarioGetDTO> obtenerUsuarios() throws Exception;
     // Método que permite agregar un producto a la lista de favoritos del usuario

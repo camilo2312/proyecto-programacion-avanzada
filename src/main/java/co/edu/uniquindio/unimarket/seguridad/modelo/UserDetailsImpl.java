@@ -20,7 +20,8 @@ public class UserDetailsImpl implements UserDetails {
         }else if(user instanceof Moderador){
             authorities.add( new SimpleGrantedAuthority("MODERADOR") );
         }
-        return new UserDetailsImpl(user.getEmail(), user.getContrasena(), authorities);
+        return new UserDetailsImpl(user.getEmail() + ";" + user
+                .getCedula(), user.getContrasena(), authorities);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -21,6 +21,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain setFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.cors();
+        http.authorizeHttpRequests().anyRequest().permitAll();
         //http.authorizeHttpRequests().requestMatchers("/api/auth/**").permitAll().anyRequest().authenticated();
         //http.authorizeHttpRequests().requestMatchers("/api/productos/**").permitAll().anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(jwtEntryPoint);

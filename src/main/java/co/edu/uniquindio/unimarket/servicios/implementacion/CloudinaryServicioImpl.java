@@ -16,12 +16,13 @@ public class CloudinaryServicioImpl implements CloudinaryServicio {
     public CloudinaryServicioImpl(){
         Map<String, String> config = new HashMap<>();
         config.put("cloud_name", "dajsnzdgb");
-        config.put("api_key", "raxX6SwPsoJnWCmK3_Irpr2nCZI");
+        config.put("api_key", "747236412539794");
         config.put("api_secret", "raxX6SwPsoJnWCmK3_Irpr2nCZI");
         cloudinary = new Cloudinary(config);
     }
     @Override
     public Map subirImagen(File file, String carpeta) throws Exception{
+
         return cloudinary.uploader().upload(file, ObjectUtils.asMap("folder",
                 String.format("uniquindio/unimarket/%s", carpeta)));
     }

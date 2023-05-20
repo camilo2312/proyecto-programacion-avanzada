@@ -27,12 +27,12 @@ public class ProductoDTO {
     @NotNull
     @Min(value = 1,message = "La disponibilidad el producto debe ser mayor a 1")
     private int disponibilidad;
-    @NotNull(message = "La cédula del vendedor no puede ser nula")
+    @NotNull(message = "El correo del vendedor no puede ser nulo")
     @NotBlank
     private String vendedor;
     @NotNull
-    @Size(min = 1, message = "El producto debe contener por lo menos 1 imagen")
-    private Map<String, String> imagenes;
+    @Size(min = 1, message = "El producto debe contener por lo menos una imagen")
+    private List<ImagenDTO> imagenes;
     @NotNull
     @Size(min = 1, message = "El producto debe estar asociado por lo menos a 1 categoria")
     private List<Categoria> categorias;

@@ -24,7 +24,8 @@ public class ProductoFavoritoServicioImpl implements ProductoFavoritoServicio {
     public boolean crearFavoritosUsuario(FavoritoDTO favoritoDTO) throws Exception{
         Usuario usuario = usuarioServicio.obtenerUsuarioBD(favoritoDTO.getCedulaUsuario());
         Producto producto = productoServicio.obtenerProductoBD(favoritoDTO.getCodigoProducto());
-        if (usuario.getLstProductosFavoritos().contains(producto)) {
+        if (!usuario.getLstProductosFavoritos().contains(producto)) {
+            producto.getLstUsuariosProductosFavoritos().add(usuario);
             usuario.getLstProductosFavoritos().add(producto);
             return usuarioServicio.crearProductoFavoritoUsuario(usuario);
         }
@@ -37,6 +38,7 @@ public class ProductoFavoritoServicioImpl implements ProductoFavoritoServicio {
         Usuario usuario = usuarioServicio.obtenerUsuarioBD(favoritoDTO.getCedulaUsuario());
         Producto producto = productoServicio.obtenerProductoBD(favoritoDTO.getCodigoProducto());
         if (usuario.getLstProductosFavoritos().contains(producto)) {
+            producto.getLstUsuariosProductosFavoritos().remove(usuario);
             usuario.getLstProductosFavoritos().remove(producto);
             return usuarioServicio.crearProductoFavoritoUsuario(usuario);
         }

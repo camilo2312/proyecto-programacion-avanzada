@@ -20,10 +20,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private ModeradorRepo adminRepo;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
         Usuario cliente = clienteRepo.findByEmail(email);
-        if(cliente != null){
+        if(cliente == null){
             Moderador admin = adminRepo.findByEmail(email);
-            if(admin != null)
+            if(admin == null)
                 throw new UsernameNotFoundException("El usuario no existe");
             return UserDetailsImpl.build(admin);
         }else{

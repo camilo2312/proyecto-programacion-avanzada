@@ -80,7 +80,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     @Override
     // Método que permite actualizar la lista de favoritos del usuario
     public boolean crearProductoFavoritoUsuario(Usuario usuario) throws Exception {
-        return usuarioRepo.save(usuario).getCedula().equals("");
+        return !usuarioRepo.save(usuario).getCedula().equals("");
     }
 
     @Override
@@ -107,6 +107,17 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         }
 
         return usuario.get();
+    }
+
+    @Override
+    public Usuario obtenerUsuarioBDCorreo(String correo) throws Exception {
+        Usuario usuario = usuarioRepo.findByEmail(correo);
+
+        if (usuario == null) {
+            throw new Exception("El usuario con el correo " + correo + " no existe");
+        }
+
+        return usuario;
     }
 
     /* Método que permite realizar la transformación de un usuario de tipo

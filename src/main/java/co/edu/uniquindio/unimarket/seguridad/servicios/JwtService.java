@@ -1,10 +1,17 @@
 package co.edu.uniquindio.unimarket.seguridad.servicios;
 import java.security.Key;
+
+import co.edu.uniquindio.unimarket.modelo.entidades.Usuario;
+import co.edu.uniquindio.unimarket.repositorios.UsuarioRepo;
+import co.edu.uniquindio.unimarket.servicios.interfaces.UsuarioServicio;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.Date;

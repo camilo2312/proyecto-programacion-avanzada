@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,6 @@ public class ProductoGetDTO {
     private LocalDate fechaLimite;
     private LocalDate fechaPublicacion;
     private String vendedor;
-    private Map<String, String> imagenes;
+    private List<ImagenDTO> imagenes;
     private List<Categoria> categorias;
 }

@@ -22,10 +22,13 @@ public interface ProductoRepo extends JpaRepository<Producto, Integer> {
     @Query("SELECT p FROM Producto  p WHERE :usuario member of p.lstUsuariosProductosFavoritos")
     List<Producto> getProductosFavoritos(Usuario usuario);
     // Método que permite obtener productos por un rango de precios
-    @Query("SELECT p FROM Producto p WHERE p.precio >= :precioMinimo AND p.precio <= :precioMaximo")
+    @Query("SELECT p FROM Producto p WHERE p.precio >= :precioMinimo AND p.precio <= :precioMaximo AND p.estado = 'AUTORIZADO'")
     List<Producto> getProductosPorRangoPrecio(double precioMinimo, double precioMaximo);
-    @Query("SELECT p FROM Producto p WHERE p.nombre like concat('%', :nombre, '%') AND p.estado = 'ACEPTADO' ")
+    @Query("SELECT p FROM Producto p WHERE p.nombre like concat('%', :nombre, '%') AND p.estado = 'AUTORIZADO' ")
     List<Producto> getProductosPorNombre(String nombre);
     @Query("SELECT p.disponibilidad FROM Producto p WHERE p.codigo = :codigo")
     int obtenerDisponibilidadProducto(int codigo);
+
+    @Query("SELECT p FROM Producto p WHERE p.estado = 'AUTORIZADO' AND p.fechaLimite >= current_date ")
+    List<Producto> obtenerTodosLosProductos();
 }

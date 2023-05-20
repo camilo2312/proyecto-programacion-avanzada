@@ -32,7 +32,7 @@ public class ProductosController {
                 productoServicio.eliminarProducto(codigo)
         ));
     }
-    @PutMapping("/{codigo}")
+    @PutMapping("/actualizarProducto/{codigo}")
     public ResponseEntity<MensajeDTO> actualizarProducto(@PathVariable int codigo, @Valid @RequestBody ProductoDTO productoDTO) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
                 HttpStatus.OK,
@@ -40,16 +40,17 @@ public class ProductosController {
                 productoServicio.actualizarProducto(codigo, productoDTO)
         ));
     }
-    @PutMapping("/{estado}")
-    public ResponseEntity<MensajeDTO> actualizarProductoEstado(@PathVariable Estado estado, @PathVariable int codigo) throws Exception{
-        return ResponseEntity.status(HttpStatus.CREATED).body(new MensajeDTO(
-                HttpStatus.CREATED,
+
+    @GetMapping("/obtenerProducto/{codigoProducto}")
+    public ResponseEntity<MensajeDTO> obtenerProducto(@PathVariable int codigoProducto) throws Exception{
+        return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
+                HttpStatus.OK,
                 false,
-                productoServicio.actualizarPorEstado(codigo, estado)
+                productoServicio.obtenerProducto(codigoProducto)
         ));
     }
     @GetMapping("/{codigoProducto}/{estado}")
-    public ResponseEntity<MensajeDTO> obtenerProducto(@PathVariable int codigoProducto, @PathVariable Estado estado) throws Exception{
+    public ResponseEntity<MensajeDTO> actualizarProductoPorEstado(@PathVariable int codigoProducto, @PathVariable Estado estado) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
                 HttpStatus.OK,
                 false,
@@ -64,7 +65,7 @@ public class ProductosController {
                 productoServicio.listarProductosPorCategoria(categoria)
         ));
     }
-    @GetMapping("/{cedula}")
+    @GetMapping("/productosVendedor/{cedula}")
     public ResponseEntity<MensajeDTO> listarProductoUsuario(@PathVariable String cedula) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
                 HttpStatus.OK,
@@ -94,6 +95,23 @@ public class ProductosController {
                 HttpStatus.OK,
                 false,
                 productoServicio.listarProductosPorNombre(nombre)
+        ));
+    }
+
+    @GetMapping("/allProductos")
+    public ResponseEntity<MensajeDTO> listarTodosLosProductos(){
+        return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
+                HttpStatus.OK,
+                false,
+                productoServicio.listarTodosLosProductos()
+        ));
+    }
+    @GetMapping("/categorias")
+    public ResponseEntity<MensajeDTO> listaCategorias() {
+        return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
+                HttpStatus.OK,
+                false,
+                productoServicio.obtenerListaCategorias()
         ));
     }
 }
