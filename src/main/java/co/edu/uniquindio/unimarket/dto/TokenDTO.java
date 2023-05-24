@@ -11,4 +11,5 @@ import lombok.Setter;
 public class TokenDTO {
     @NotNull
     private String token;
+    private String refreshToken;
 }
