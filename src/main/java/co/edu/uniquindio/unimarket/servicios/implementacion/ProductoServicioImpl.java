@@ -219,6 +219,16 @@ public class ProductoServicioImpl implements ProductoServicio {
         return lstCategorias;
     }
 
+    @Override
+    public List<ProductoGetDTO> obtenereProductosModerador() {
+        List<Producto> lstProductos = productoRepo.obetenerProductosModerador();
+        List<ProductoGetDTO> lstRespuesta = new ArrayList<>();
+
+        lstRespuesta = transformarListaProductos(lstProductos);
+
+        return  lstRespuesta;
+    }
+
     // Método que permite saber si el producto existe en la base de datos, dado su código
     private boolean confirmarExistenciaProducto(int codigoProducto) throws Exception {
         boolean existe = productoRepo.existsById(codigoProducto);

@@ -49,7 +49,7 @@ public class ProductosController {
                 productoServicio.obtenerProducto(codigoProducto)
         ));
     }
-    @GetMapping("/{codigoProducto}/{estado}")
+    @GetMapping("/actualizarEstado/{codigoProducto}/{estado}")
     public ResponseEntity<MensajeDTO> actualizarProductoPorEstado(@PathVariable int codigoProducto, @PathVariable Estado estado) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
                 HttpStatus.OK,
@@ -104,6 +104,15 @@ public class ProductosController {
                 HttpStatus.OK,
                 false,
                 productoServicio.listarTodosLosProductos()
+        ));
+    }
+
+    @GetMapping("/allProductosModerator")
+    public ResponseEntity<MensajeDTO> obtenereProductosModerador() {
+        return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
+                HttpStatus.OK,
+                false,
+                productoServicio.obtenereProductosModerador()
         ));
     }
     @GetMapping("/categorias")

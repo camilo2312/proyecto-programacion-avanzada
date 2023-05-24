@@ -47,6 +47,7 @@ public class CompraServicioImpl implements CompraServicio {
         nuevaCompra.setFechaCreacion(LocalDate.now());
         nuevaCompra.setEstado(EstadoCompra.APROBADA);
         nuevaCompra.setPrecioTotal(compraDTO.getTotal());
+        nuevaCompra.setDireccion(usuarioCompra.getDirecciones().get(0));
 
         nuevaCompra = compraRepo.save(nuevaCompra);
 
@@ -59,7 +60,7 @@ public class CompraServicioImpl implements CompraServicio {
 
                     producto = productoServicio.obtenerProductoBD(detalleCompraDTO.getCodigoProducto());
                     vendedor = usuarioServicio.obtenerUsuarioBD(producto.getVendedor().getCedula());
-                    mensajeProductos += "- " + producto.getNombre() + " " + detalleCompraDTO.getPrecioProducto() + "\n";
+                    mensajeProductos += "- " + producto.getNombre() + ": " + "$" + detalleCompraDTO.getPrecioProducto() + "\n";
                     correosVendedores.add(vendedor.getEmail());
                 }
             }

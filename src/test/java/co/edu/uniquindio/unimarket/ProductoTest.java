@@ -1,5 +1,6 @@
 package co.edu.uniquindio.unimarket;
 
+import co.edu.uniquindio.unimarket.dto.ImagenDTO;
 import co.edu.uniquindio.unimarket.dto.ProductoDTO;
 import co.edu.uniquindio.unimarket.dto.ProductoGetDTO;
 import co.edu.uniquindio.unimarket.modelo.entidades.Categoria;
@@ -27,8 +28,8 @@ public class ProductoTest {
     @Sql("classpath:dataset.sql")
     public void crearProducto() {
         try {
-            Map<String, String> lstImagenes = new LinkedCaseInsensitiveMap<>();
-            lstImagenes.put("1", "https://w0.peakpx.com/wallpaper/132/121/HD-wallpaper-goku-perron-en-dios-anime-dragon-ball-ssj-ssj-dios.jpg");
+            List<ImagenDTO> lstImagenes = new ArrayList<>();
+            lstImagenes.add(new ImagenDTO("1", "https://w0.peakpx.com/wallpaper/132/121/HD-wallpaper-goku-perron-en-dios-anime-dragon-ball-ssj-ssj-dios.jpg"));
             List<Categoria> lstCategorias = new ArrayList<>();
             lstCategorias.add(Categoria.Juegos);
             ProductoDTO productoDTO = new ProductoDTO(
@@ -74,7 +75,7 @@ public class ProductoTest {
                     producto.getPrecio(),
                     producto.getDisponibilidad(),
                     producto.getVendedor().getCedula(),
-                    producto.getLstImages(),
+                    null,
                     producto.getLstCategorias()
             );
 
@@ -89,7 +90,7 @@ public class ProductoTest {
     @Sql("classpath:dataset.sql")
     public void actualizarPorEstado() {
         try {
-            int codigo = productoServicio.actualizarPorEstado(3, Estado.DENEGADO);
+            int codigo = productoServicio.actualizarPorEstado(3, Estado.RECHAZADO);
 
             Assertions.assertEquals(3, codigo);
         } catch (Exception ex) {
