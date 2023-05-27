@@ -57,7 +57,7 @@ public class ProductosController {
                 productoServicio.actualizarPorEstado(codigoProducto, estado)
         ));
     }
-    @GetMapping("/{categoria}")
+    @GetMapping("/buscarProductoCategoria/{categoria}")
     public ResponseEntity<MensajeDTO> listarProductosPorCategoria(@PathVariable Categoria categoria) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
                 HttpStatus.OK,
@@ -81,7 +81,7 @@ public class ProductosController {
                 productoServicio.listarProductoFavUsuario(cedula)
         ));
     }
-    @GetMapping("/{preciomin}/{preciomax}")
+    @GetMapping("/buscarProductoPrecios/{preciomin}/{preciomax}")
     public ResponseEntity<MensajeDTO> listarProductoPrecios(@PathVariable double preciomin, @PathVariable double preciomax) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
                 HttpStatus.OK,
@@ -89,7 +89,7 @@ public class ProductosController {
                 productoServicio.listarProductoPrecios(preciomin, preciomax)
         ));
     }
-    @GetMapping("/{nombre}")
+    @GetMapping("/buscarProductoNombre/{nombre}")
     public ResponseEntity<MensajeDTO> listarProductosPorNombre(@PathVariable String nombre) throws Exception{
         return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
                 HttpStatus.OK,

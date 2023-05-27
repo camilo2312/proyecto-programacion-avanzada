@@ -255,8 +255,10 @@ public class ProductoServicioImpl implements ProductoServicio {
                 producto.getFechaLimite(),
                 producto.getFechaPublicacion(),
                 producto.getVendedor().getCedula(),
+                producto.getVendedor().getNombreCompleto(),
                 lstImagenes,
-                producto.getLstCategorias()
+                producto.getLstCategorias(),
+                producto.getEstado()
         );
 
         return productoGetDTO;

@@ -31,6 +31,6 @@ public interface ProductoRepo extends JpaRepository<Producto, Integer> {
 
     @Query("SELECT p FROM Producto p WHERE p.estado = 'AUTORIZADO' AND p.fechaLimite >= current_date")
     List<Producto> obtenerTodosLosProductos();
-    @Query("SELECT p FROM Producto p WHERE p.estado = 'INACTIVO'")
+    @Query("SELECT p FROM Producto p")
     List<Producto> obetenerProductosModerador();
 }
