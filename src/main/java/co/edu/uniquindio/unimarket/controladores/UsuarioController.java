@@ -47,4 +47,12 @@ public class UsuarioController {
                 usuarioServicio.obtenerUsuarios()
         ));
     }
+
+    @GetMapping("/cambiarContrasena/{cedulaUsuario}/{nuevaContrasena}")
+    public ResponseEntity<MensajeDTO> cambiarContrasena(@PathVariable String cedulaUsuario, @PathVariable String nuevaContrasena) throws Exception{
+        return  ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
+                HttpStatus.OK, false,
+                usuarioServicio.cambiarContrasena(cedulaUsuario, nuevaContrasena)
+        ));
+    }
 }

@@ -1,11 +1,12 @@
 package co.edu.uniquindio.unimarket.servicios.implementacion;
 
-import co.edu.uniquindio.unimarket.dto.ProductoGetDTO;
-import co.edu.uniquindio.unimarket.dto.UsuarioDTO;
-import co.edu.uniquindio.unimarket.dto.UsuarioGetDTO;
+import co.edu.uniquindio.unimarket.dto.*;
+import co.edu.uniquindio.unimarket.modelo.entidades.Direccion;
 import co.edu.uniquindio.unimarket.modelo.entidades.Estado;
 import co.edu.uniquindio.unimarket.modelo.entidades.Usuario;
 import co.edu.uniquindio.unimarket.repositorios.UsuarioRepo;
+import co.edu.uniquindio.unimarket.servicios.interfaces.DireccionServicio;
+import co.edu.uniquindio.unimarket.servicios.interfaces.EmailServicio;
 import co.edu.uniquindio.unimarket.servicios.interfaces.ProductoServicio;
 import co.edu.uniquindio.unimarket.servicios.interfaces.UsuarioServicio;
 import lombok.AllArgsConstructor;
@@ -22,12 +23,14 @@ import java.util.Optional;
 public class UsuarioServicioImpl implements UsuarioServicio {
     private final UsuarioRepo usuarioRepo;
     private final PasswordEncoder passwordEncoder;
+    private final EmailServicio emailServicio;
 
 
     @Override
     // Método que permite realizar el registro de un usuario
     public String registrarUsuario(UsuarioDTO usuarioDTO) throws Exception {
         Usuario nuevoUsuario = new Usuario();
+
         nuevoUsuario.setCedula(usuarioDTO.getCedula());
         nuevoUsuario.setNombreCompleto(usuarioDTO.getNombreCompleto());
         nuevoUsuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
@@ -95,6 +98,45 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         }
 
         throw new Exception("El usuario identificado con " + identificacionUsuario + " no existe en la base de datos");
+    }
+
+    @Override
+    public String reestablecerContrasena(String email) throws Exception {
+        Usuario usuario = usuarioRepo.findByEmail(email);
+
+        if (usuario != null) {
+            emailServicio.enviarEmail(new EmailDTO(
+                    "Reestablecer contraseña",
+                    "<div style=\"margin: 4% auto;\n" +
+                            "    border-radius: 10px;\n" +
+                            "    width: 400px;\n" +
+                            "    font-family: sans-serif;\n" +
+                            "    border: 1px solid gray;\n" +
+                            "    background: #fff\">\n" +
+                            "  <div style=\"background: #3b96c8;\n" +
+                            "    border-radius: 10px 10px 0px 0px;\n" +
+                            "    color: #fff;\n" +
+                            "    text-align: center;\n" +
+                            "    padding: 1px;\">\n" +
+                            "    <h3>Reestablecer contraseña</h3>\n" +
+                            "  </div>\n" +
+                            "  <div style=\"padding: 0% 4% 4% 4%;\n" +
+                            "    text-align: center;\">\n" +
+                            "    <p>\n" +
+                            "      Por medio del siguiente link, podrás\n" +
+                            "      cambiar tú contraseña\n" +
+                            "    </p>\n" +
+                            "    <a style=\"color: blue;\n" +
+                            "    text-decoration: underline;\" href=\"http://localhost:4200/auth/reset-password\" target=\"_blank\">http://localhost:4200/auth/reset-password</a>\n" +
+                            "  </div>\n" +
+                            "</div>",
+                    email
+            ));
+
+            return "Correo enviado satisfactoriamente";
+        }
+
+        throw  new Exception("El usuario con el email " + email + "no existe");
     }
 
     // Método que permite obtener un usuario de la base de datos

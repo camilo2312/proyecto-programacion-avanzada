@@ -36,4 +36,5 @@ public interface ProductoServicio {
     int obtenerDisponibilidadProducto(int codigo);
     List<ProductoGetDTO> listarTodosLosProductos();
     List<Categoria> obtenerListaCategorias();
+    List<ProductoGetDTO> obtenereProductosModerador();
 }

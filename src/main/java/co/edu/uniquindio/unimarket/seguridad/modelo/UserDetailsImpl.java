@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
-    private String username, password;
+    private String username, password, codigo;
     private Collection<? extends GrantedAuthority> authorities;
     public static UserDetailsImpl build(Persona user){
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -20,8 +20,7 @@ public class UserDetailsImpl implements UserDetails {
         }else if(user instanceof Moderador){
             authorities.add( new SimpleGrantedAuthority("MODERADOR") );
         }
-        return new UserDetailsImpl(user.getEmail() + ";" + user
-                .getCedula(), user.getContrasena(), authorities);
+        return new UserDetailsImpl(user.getEmail(), user.getContrasena(), user.getCedula(), authorities);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -35,6 +34,8 @@ public class UserDetailsImpl implements UserDetails {
     public String getUsername() {
         return username;
     }
+
+    public String getCodigo() { return codigo; }
     @Override
     public boolean isAccountNonExpired() {
         return true;

@@ -24,6 +24,8 @@ public class ProductoGetDTO {
     private LocalDate fechaLimite;
     private LocalDate fechaPublicacion;
     private String vendedor;
+    private String nombreVendedor;
     private List<ImagenDTO> imagenes;
     private List<Categoria> categorias;
+    private Estado estado;
 }

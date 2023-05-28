@@ -16,4 +16,5 @@ public class ComentarioGetDTO {
     private LocalDate fechaCreacion;
     private int codigoProducto;
     private String cedulaUsuario;
+    private String nombreUsuario;
 }

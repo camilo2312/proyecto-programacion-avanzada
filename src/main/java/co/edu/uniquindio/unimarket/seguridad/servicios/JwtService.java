@@ -3,6 +3,7 @@ import java.security.Key;
 
 import co.edu.uniquindio.unimarket.modelo.entidades.Usuario;
 import co.edu.uniquindio.unimarket.repositorios.UsuarioRepo;
+import co.edu.uniquindio.unimarket.seguridad.modelo.UserDetailsImpl;
 import co.edu.uniquindio.unimarket.servicios.interfaces.UsuarioServicio;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -38,6 +39,7 @@ public class JwtService {
         List<String> roles =
                 userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
         extraClaims.put("roles", roles);
+        extraClaims.put("sub_code", ((UserDetailsImpl)userDetails).getCodigo());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)

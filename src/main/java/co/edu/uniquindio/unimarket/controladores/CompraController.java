@@ -35,7 +35,7 @@ public class CompraController {
         ));
     }
 
-    @GetMapping("/{cedulaUsuario}")
+    @GetMapping("/comprasUsuario/{cedulaUsuario}")
     public ResponseEntity<MensajeDTO> obtenerComprasUsuario(@PathVariable String cedulaUsuario) throws Exception {
         return ResponseEntity.status(HttpStatus.OK).body(new MensajeDTO(
                 HttpStatus.OK,

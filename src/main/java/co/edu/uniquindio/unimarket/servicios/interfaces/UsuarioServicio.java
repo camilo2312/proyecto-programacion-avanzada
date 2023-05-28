@@ -25,5 +25,7 @@ public interface UsuarioServicio {
     boolean crearProductoFavoritoUsuario(Usuario usuario) throws Exception;
     // Método que permite cambiar la contraseña de acceso del usuario
     boolean cambiarContrasena(String identificacion, String nuevaContrasena) throws Exception;
+    // Método que permite envíar un correo con la url para realizar el cambió de contraseña
+    String reestablecerContrasena(String email) throws Exception;
 
 }
