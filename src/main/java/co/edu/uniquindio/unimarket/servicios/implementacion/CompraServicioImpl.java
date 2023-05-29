@@ -1,9 +1,6 @@
 package co.edu.uniquindio.unimarket.servicios.implementacion;
 
-import co.edu.uniquindio.unimarket.dto.CompraDTO;
-import co.edu.uniquindio.unimarket.dto.CompraGetDTO;
-import co.edu.uniquindio.unimarket.dto.DetalleCompraDTO;
-import co.edu.uniquindio.unimarket.dto.EmailDTO;
+import co.edu.uniquindio.unimarket.dto.*;
 import co.edu.uniquindio.unimarket.modelo.entidades.Compra;
 import co.edu.uniquindio.unimarket.modelo.entidades.EstadoCompra;
 import co.edu.uniquindio.unimarket.modelo.entidades.Producto;
@@ -31,14 +28,16 @@ public class CompraServicioImpl implements CompraServicio {
 
     @Override
     // Método que permite crear una compra en la base de datos
-    public int crearCompra(CompraDTO compraDTO) throws Exception {
+    public int      crearCompra(CompraDTO compraDTO) throws Exception {
         Compra nuevaCompra = new Compra();
         Usuario usuarioCompra = new Usuario();
         Usuario vendedor = new Usuario();
         Producto producto = new Producto();
+        EmailMensajeDTO emailMensajeDTO = new EmailMensajeDTO();
         int resultadosDetalles = 0;
-        String mensajeUsuario = "";
-        String mensajeProductos = "";
+        String mensajeUsuario = emailMensajeDTO.mensajeCompra;
+        String mensajeProductos = emailMensajeDTO.tabla;
+        String mensajeTabla = "";
         List<String> correosVendedores = new ArrayList<>();
 
         usuarioCompra = usuarioServicio.obtenerUsuarioBD(compraDTO.getCodigoUsuario());
@@ -53,20 +52,26 @@ public class CompraServicioImpl implements CompraServicio {
 
 
         if (nuevaCompra != null) {
-            mensajeUsuario += "El usuario " + usuarioCompra.getNombreCompleto() + " realizó la compra de los siguientes productos: \n";
             for(DetalleCompraDTO detalleCompraDTO : compraDTO.getDetalleComprasDTO()) {
                 if (detalleCompraServicio.crearDetalleCompra(nuevaCompra, detalleCompraDTO) > 0) {
                     resultadosDetalles += 1;
 
                     producto = productoServicio.obtenerProductoBD(detalleCompraDTO.getCodigoProducto());
                     vendedor = usuarioServicio.obtenerUsuarioBD(producto.getVendedor().getCedula());
-                    mensajeProductos += "- " + producto.getNombre() + ": " + "$" + detalleCompraDTO.getPrecioProducto() + "\n";
+                    mensajeTabla +=
+                            "<tr>\n" +
+                               "<td>" + producto.getNombre() + "</td>\n" +
+                               "<td style=\"text-align:right\">" + detalleCompraDTO.getUnidades() + "</td>\n" +
+                               "<td style=\"text-align:right\">" + "$" + detalleCompraDTO.getPrecioProducto() + "</td>\n" +
+                            "</tr>\n";
                     correosVendedores.add(vendedor.getEmail());
                 }
             }
 
-            mensajeProductos += "Total pagado: " + nuevaCompra.getPrecioTotal();
-            mensajeUsuario += mensajeProductos;
+            mensajeProductos = mensajeProductos.replace("{0}", mensajeTabla);
+            mensajeUsuario = mensajeUsuario.replace("{0}", emailMensajeDTO.mensajeVendedor).replace("{0}", usuarioCompra.getNombreCompleto())
+                    .replace("{1}", mensajeProductos)
+                    .replace("{2}", "$" + nuevaCompra.getPrecioTotal());
 
             emailServicio.enviarEmail(new EmailDTO(
                     "Compra de productos en tienda Unimarket",
@@ -74,8 +79,10 @@ public class CompraServicioImpl implements CompraServicio {
                     String.join(",", correosVendedores)
             ));
 
-            mensajeUsuario = "Señor(a) " + usuarioCompra.getNombreCompleto() + " usted realizó la compra de los siguientes productos: \n";
-            mensajeUsuario += mensajeProductos;
+            mensajeUsuario = emailMensajeDTO.mensajeCompra;
+            mensajeUsuario = mensajeUsuario.replace("{0}", emailMensajeDTO.mensajeUsuario).replace("{0}", usuarioCompra.getNombreCompleto())
+                    .replace("{1}", mensajeProductos)
+                    .replace("{2}", "$" + nuevaCompra.getPrecioTotal());
 
             emailServicio.enviarEmail(new EmailDTO(
                     "Compra de productos en tienda Unimarket",

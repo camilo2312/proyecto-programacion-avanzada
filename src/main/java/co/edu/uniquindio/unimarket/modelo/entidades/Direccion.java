@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Direccion implements Serializable {
+public class  Direccion implements Serializable {
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)

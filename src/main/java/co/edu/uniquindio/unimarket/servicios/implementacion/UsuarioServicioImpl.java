@@ -89,7 +89,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     @Override
     // Método que permite cambiar la contraseña del usuario
     public boolean cambiarContrasena(String identificacionUsuario, String nuevaContrasena) throws Exception {
-        Usuario usuario = usuarioRepo.obtenerUsuarioCorreoNombreUsuario(identificacionUsuario);
+        Usuario usuario = obtenerUsuarioBD(identificacionUsuario);
 
         if (usuario != null) {
             usuario.setContrasena(passwordEncoder.encode(nuevaContrasena));
@@ -127,7 +127,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
                             "      cambiar tú contraseña\n" +
                             "    </p>\n" +
                             "    <a style=\"color: blue;\n" +
-                            "    text-decoration: underline;\" href=\"http://localhost:4200/auth/reset-password\" target=\"_blank\">http://localhost:4200/auth/reset-password</a>\n" +
+                            "    text-decoration: underline;\" href=\"http://localhost:4200/auth/reset-password/" + usuario.getCedula() + "\" target=\"_blank\">http://localhost:4200/auth/reset-password/" + usuario.getCedula() + "</a>\n" +
                             "  </div>\n" +
                             "</div>",
                     email
