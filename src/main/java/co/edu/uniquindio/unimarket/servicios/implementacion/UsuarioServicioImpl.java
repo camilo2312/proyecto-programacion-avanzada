@@ -127,7 +127,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
                             "      cambiar tú contraseña\n" +
                             "    </p>\n" +
                             "    <a style=\"color: blue;\n" +
-                            "    text-decoration: underline;\" href=\"http://localhost:4200/auth/reset-password/" + usuario.getCedula() + "\" target=\"_blank\">http://localhost:4200/auth/reset-password/" + usuario.getCedula() + "</a>\n" +
+                            "    text-decoration: underline;\" href=\"https://unimarketpgavanzada.web.app/auth/reset-password/" + usuario.getCedula() + "\" target=\"_blank\">https://unimarketpgavanzada.web.app/auth/reset-password/" + usuario.getCedula() + "</a>\n" +
                             "  </div>\n" +
                             "</div>",
                     email
